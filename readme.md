@@ -82,7 +82,7 @@
 |4|	151-300|	100|
 |5|	300+|	300|
 
-- 带权交叉熵：对档位进行分类，![](http://latex.codecogs.com/svg.latex?\\sum_i^n\\sum_j^5 w_j y_{ij}logp_{ij})，n个样本，![](http://latex.codecogs.com/svg.latex?y_{ij})代表第i个样本第j类的真实值，![](http://latex.codecogs.com/svg.latex?p_{ij})代表第i个样本第j类的预测值。![](http://latex.codecogs.com/svg.latex?(y_{ij}\in \{0,1\})，![](http://latex.codecogs.com/svg.latex?w_j)为该类的权重，![](http://latex.codecogs.com/svg.latex?(w_j \\in \\{1,10,50,100,300\\})
+- 带权交叉熵：对档位进行分类，![](http://latex.codecogs.com/svg.latex?\\sum_i^n \\sum_j^5 w_j y_{ij}logp_{ij})，n个样本，![](http://latex.codecogs.com/svg.latex?y_{ij})代表第i个样本第j类的真实值，![](http://latex.codecogs.com/svg.latex?p_{ij})代表第i个样本第j类的预测值。![](http://latex.codecogs.com/svg.latex?(y_{ij}\in \{0,1\})，![](http://latex.codecogs.com/svg.latex?w_j)为该类的权重，![](http://latex.codecogs.com/svg.latex?(w_j \\in \\{1,10,50,100,300\\})
 
 - 均方误差(回归): 对转发量进行回归，$\frac{1}{n} \sum_i^n (y_i-y_i^{hat})^2$，其中$y_i$为真实转发量中心化后的值，$y_i^{hat}$为预测转发量
 
