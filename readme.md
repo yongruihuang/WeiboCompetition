@@ -48,7 +48,7 @@
 
 
 ## 24小时转发特征
-由于24小时转发数据在测试集中不存在，于是，只能采用类似target encoding的方法交叉训练集构造训练集和测试集特征，我们构造每个小时的转发量作为特征，将训练集分成5份，遍历每一份训练集数据$D_{sub}$，利用除去$D_{sub}$的其他四份数据进行模型训练，用每个小时转发数作为标签，其他特征作为特征，训练后对$D_{sub}$进行预测，$D_{sub}$部分得到24小时的特征，对测试集进行预测，训练集的预测值取5次预测的平均。
+由于24小时转发数据在测试集中不存在，于是，只能采用类似target encoding的方法交叉训练集构造训练集和测试集特征，我们构造每个小时的转发量作为特征，将训练集分成5份，遍历每一份训练集数据<img src="svgs/1a3452293037722957e353d66493e294.svg?invert_in_darkmode" align=middle width=33.36695504999999pt height=22.465723500000017pt/>，利用除去<img src="svgs/1a3452293037722957e353d66493e294.svg?invert_in_darkmode" align=middle width=33.36695504999999pt height=22.465723500000017pt/>的其他四份数据进行模型训练，用每个小时转发数作为标签，其他特征作为特征，训练后对<img src="svgs/1a3452293037722957e353d66493e294.svg?invert_in_darkmode" align=middle width=33.36695504999999pt height=22.465723500000017pt/>进行预测，<img src="svgs/1a3452293037722957e353d66493e294.svg?invert_in_darkmode" align=middle width=33.36695504999999pt height=22.465723500000017pt/>部分得到24小时的特征，对测试集进行预测，训练集的预测值取5次预测的平均。
 我们尝试以下网络结构进行预测
 - 全连接输出24\*5个神经元，每五个神经元代表一个小时的转发量，每五个神经元分别去做交叉熵损失
 - 利用时序模型GRU，在训练时候利用**真实的上一步时间步**作为输入，其他特征作为初始的hidden status
@@ -82,11 +82,11 @@
 |4|	151-300|	100|
 |5|	300+|	300|
 
-- 带权交叉熵：对档位进行分类，![](http://latex.codecogs.com/svg.latex?w_j y_{ij}logp_{ij})，n个样本，![](http://latex.codecogs.com/svg.latex?y_{ij})代表第i个样本第j类的真实值，![](http://latex.codecogs.com/svg.latex?p_{ij})代表第i个样本第j类的预测值。![](http://latex.codecogs.com/svg.latex?(y_{ij}\in \{0,1\})，![](http://latex.codecogs.com/svg.latex?w_j)为该类的权重，![](http://latex.codecogs.com/svg.latex?(w_j \\in \\{1,10,50,100,300\\})
+- 带权交叉熵：对档位进行分类，<img src="svgs/82f9185dc9755b126480df473ed521ef.svg?invert_in_darkmode" align=middle width=135.48937214999998pt height=31.36100879999999pt/>，<img src="svgs/55a049b8f161ae7cfeb0197d75aff967.svg?invert_in_darkmode" align=middle width=9.86687624999999pt height=14.15524440000002pt/>个样本，<img src="svgs/0dc78fafcf888221e7b04b797ecf1a81.svg?invert_in_darkmode" align=middle width=18.81483944999999pt height=14.15524440000002pt/>代表第i个样本第j类的真实值，<img src="svgs/200cdf959030dfee4638a263f63db3ae.svg?invert_in_darkmode" align=middle width=19.025975099999986pt height=14.15524440000002pt/>代表第i个样本第j类的预测值。<img src="svgs/9bb9bef4064b1dd3da0feacbbbcddc96.svg?invert_in_darkmode" align=middle width=79.91057249999999pt height=24.65753399999998pt/>，<img src="svgs/40cca55dbe7b8452cf1ede03d21fe3ed.svg?invert_in_darkmode" align=middle width=17.87301779999999pt height=14.15524440000002pt/>为该类的权重，<img src="svgs/fe54c91f95be39b9b62cae7ee59857d2.svg?invert_in_darkmode" align=middle width=174.85930439999998pt height=24.65753399999998pt/>
 
-- 均方误差(回归): 对转发量进行回归，$\frac{1}{n} \sum_i^n (y_i-y_i^{hat})^2$，其中$y_i$为真实转发量中心化后的值，$y_i^{hat}$为预测转发量
+- 均方误差(回归): 对转发量进行回归，<img src="svgs/34eb1d9a0bb904c5215114214f703118.svg?invert_in_darkmode" align=middle width=121.36256055pt height=27.91243950000002pt/>，其中<img src="svgs/2b442e3e088d1b744730822d18e7aa21.svg?invert_in_darkmode" align=middle width=12.710331149999991pt height=14.15524440000002pt/>为真实转发量中心化后的值，<img src="svgs/5eabf65c96fa582c9314fc597a0d957b.svg?invert_in_darkmode" align=middle width=28.44140804999999pt height=27.91243950000002pt/>为预测转发量
 
-- 泊松损失：由于计数问题符合泊松分布，采用$\sum_i^n y_i^{hat} - y_i*logy_i^{hat}$，其中，$y_i$为真实转发量，$y_i^{hat}$为预测转发量
+- 泊松损失：由于计数问题符合泊松分布，采用<img src="svgs/440375cbb193942b6a1d70cd2d55fc80.svg?invert_in_darkmode" align=middle width=157.51908974999998pt height=27.91243950000002pt/>，其中，<img src="svgs/2b442e3e088d1b744730822d18e7aa21.svg?invert_in_darkmode" align=middle width=12.710331149999991pt height=14.15524440000002pt/>为真实转发量，<img src="svgs/5eabf65c96fa582c9314fc597a0d957b.svg?invert_in_darkmode" align=middle width=28.44140804999999pt height=27.91243950000002pt/>为预测转发量
 
 - 引入先验知识的交叉熵：由于我们知道一小时的转发量，因此，比如一小时的转发量挡位为3，那么24小时转发量只可能是3、4、5，因此可以引入mask softmax的机制，将神经网络输出前两个神经元Mask成无穷小，这样经过softmax后，前两个神经元输出为0，代表前两个类别的概率为0.
 
@@ -126,9 +126,9 @@ def get_distibution(cnt):
 
 因此，修改后的交叉熵对于一个样本为：
 
-$w \sum_{i=0}^{N=5}q_i log p_i$
+<img src="svgs/ea1ae3fa74957f26e7c6cbc5f9cd926e.svg?invert_in_darkmode" align=middle width=111.51310664999998pt height=32.256008400000006pt/>
 
 其中
-- $w$为样本权重，真实标签属于0为1，属于1为10，...，属于4为300
-- $p_i$为模型输出的逻辑值，输出值softmax
-- $q_i$为真是分布概率，每一类通过转发数和每一类距离的倒数实现
+- <img src="svgs/31fae8b8b78ebe01cbfbe2fe53832624.svg?invert_in_darkmode" align=middle width=12.210846449999991pt height=14.15524440000002pt/>为样本权重，真实标签属于0为1，属于1为10，...，属于4为300
+- <img src="svgs/0d19b0a4827a28ecffa01dfedf5f5f2c.svg?invert_in_darkmode" align=middle width=12.92146679999999pt height=14.15524440000002pt/>为模型输出的逻辑值，输出值softmax
+- <img src="svgs/9294da67e8fbc8ee3f1ac635fc79c893.svg?invert_in_darkmode" align=middle width=11.989211849999991pt height=14.15524440000002pt/>为真是分布概率，每一类通过转发数和每一类距离的倒数实现
